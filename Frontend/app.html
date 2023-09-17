@@ -9,24 +9,90 @@
             <div id="Header">
                 <span id="AppTitle">App</span>
                 <div id="Nav">
-                    <div id="BrowserWin" class="tab">Problem Collection</div>
-                    <div id="InfoWin" class="tab">Relevant Resources</div>
-                    <div id="AboutWin" class="tab">About App</div>
+                    <div id="BrowserWin" class="tab" onclick="toggleContent(0)">Problem Collection</div>
+                    <div id="InfoWin" class="tab" onclick="toggleContent(1)">Relevant Resources</div>
+                    <div id="AboutWin" class="tab" onclick="toggleContent(2)">About App</div>
                     <div id="SelectUnderline"></div>
                 </div>
             </div>
-            <div id="Content">
+            <div id="ContentAnswer" class="menu"></div>
+            <div id="ContentAbout" class="menu">
+                <div class="spotlight"></div>
+                <h1>This project was developed for</h1>
+                <div id="ShellhacksLogo"></div>
+                <p class="year">2023</p>
+                <p class="desc">
+                    This project was developed in 36 hours in a collaborative effort to
+                    design an application bridging the gap information and the end user in
+                    a fun, engaging and interesting way
+                </p>
+                <p class="tools">Node • Electron • Express • CSS/HTMl/JS • MD5 • Replit • WikiApi</p>
+                <div class="us-being-awesome">
+                    <div class="us"></div>
+                    <span class="role">
+                        Michael Warmbier
+                        <span>
+                            <br>Front End<br>Organization
+                        </span>
+                    </span>
+                    <div class="us"></div>
+                    <span class="role">
+                        Alex Zaalishvilli
+                        <span>
+                            <br>Back End<br>Coordination
+                        </span>
+                    </span>
+                    <div class="us"></div>
+                    <span class="role">
+                        John Doyle
+                    <span>Documentation<br>"Moral Support"</span>
+                    </span>
+                    <span></span>
+                    <div class="us"></div>
+                    <span class="role">
+                        Brendan Moore
+                    <span>Documentation<br>Unpaid Intern</span>
+                    </span>
+                </div>
+            </div>
+            <div id="ContentResource" class="menu">
+
+            </div>
+            <div id="ContentProblems" class="menu">
+                <!-- List of topic filters -->
                 <div id="FilterContainer">
+                    <div class="filter_option">All Topics</div>
+                </div>
+                <!-- Problem display -->
+                <div id="ProblemList">
+                    <div id="ProblemFilterCont">
+                        <div id="SearchProblems">&emsp;🔍</div>
+                    </div>
+                    <table>
+                        <tr>
+                            <td style="font-weight: bold">Name</td>
+                            <td style="font-weight: bold">Difficulty</td>
+                            <td style="font-weight: bold">Status</td>
+                        </tr>
+                    </table>
+                    <div id="PageSelect"></div>
                 </div>
             </div>
             <div id="Info">
-                <span class="icon">✅</span>
-                <div id="CompleteInfo" class="info_bar">
-                    <span>Completed</span>
+                <!-- User Information -->
+                <div id="InfoDisplayCont">
+                    <span class="icon">✅</span>
+                    <div id="CompleteInfo" class="info_bar">3/10</div>
+                    <span class="mask">Completed</span>
+                    <span class="icon">📅</span>
+                    <div id="GoalInfo" class="info_bar">3/10</div>
+                    <span class="mask">Today's Goal</span>
                 </div>
-                <span class="icon">📅</span>
-                <div id="GoalInfo" class="info_bar">
-                    <span>Today's Goal</span>
+                <div id="ExtraInfoTrigger"></div>
+                <div id="ExtraInfo"></div>
+                <!-- Preferences -->
+                <div id="NightLight" onclick="toggleDarkMode()">
+                    <div id="CelestialBody"><div></div></div>
                 </div>
                 <div id="AccIcon"></div>
             </div>
