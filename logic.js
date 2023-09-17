@@ -41,16 +41,16 @@ async function loadQuestions() {
         fs.readFile(__dirname + '/questions.json', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading the JSON file:', err);
-                reject(err); // Reject the Promise on error
+                reject(err); 
                 return;
             }
 
             try {
                 const jsonData = JSON.parse(data);
-                resolve(jsonData.Questions); // Resolve the Promise with the 'questions' data
+                resolve(jsonData.Questions); 
             } catch (jsonError) {
                 console.error('Error parsing JSON:', jsonError);
-                reject(jsonError); // Reject the Promise on JSON parsing error
+                reject(jsonError); 
             }
         });
     });

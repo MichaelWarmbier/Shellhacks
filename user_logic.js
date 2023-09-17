@@ -108,7 +108,6 @@ async function login(user, pass) {
   return new Promise((resolve, reject) => {
     axios.get(`https://server-06.kirbout.repl.co/login?username=${user}&password=${pass}`)
     .then(response => {
-      // Check the response status code
       if (response.status === 200) {
         resolve(response.data);
       } else {
@@ -116,10 +115,8 @@ async function login(user, pass) {
       }
     })
     .catch(error => {
-      // Log detailed error information
       console.error('Error:', error);
   
-      // You can also check the response error status and data if available
       if (error.response) {
         console.error('Response Status:', error.response.status);
         console.error('Response Data:', error.response.data);

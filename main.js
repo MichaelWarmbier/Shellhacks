@@ -5,6 +5,7 @@ const { LoadPreferences } = require('./user_logic');
 require('./logic');
 require('./user_logic');
 require('./wiki');
+
 const createWindow = () => {
     const window = new BrowserWindow({
         width: 1000,
