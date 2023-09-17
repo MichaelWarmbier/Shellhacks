@@ -84,22 +84,24 @@ async function updateUser(newUser){
 }
 
 async function signUp(info) {
-  axios.post('https://server-06.kirbout.repl.co/signup', (info))
-  .then(response => {
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      console.error('Unexpected status code:', response.status);
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-
-    if (error.response) {
-      console.error('Response Status:', error.response.status);
-      console.error('Response Data:', error.response.data);
-    }
-  });
+    return new Promise((resovlve, reject) => {
+        axios.post('https://server-06.kirbout.repl.co/signup', (info))
+        .then(response => {
+          if (response.status === 200) {
+            return response.data;
+          } else {
+            console.error('Unexpected status code:', response.status);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+      
+          if (error.response) {
+            console.error('Response Status:', error.response.status);
+            console.error('Response Data:', error.response.data);
+          }
+        });
+    });
 }
 
 async function login(user, pass) {

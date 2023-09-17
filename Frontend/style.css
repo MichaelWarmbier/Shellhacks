@@ -376,7 +376,6 @@ body {
     background-color: var(--Other);
     box-shadow: .4vw .4vw 2cqi gray;
     transition: box-shadow .5s;
-    cursor: pointer;
     display: flex;
     align-items: center;
     position: relative;
@@ -396,7 +395,7 @@ body {
     background-size: cover;
 }
 
-h1 {
+#ContentResource h1 {
     display: block;
     width: max-width; height: 1em;
     position: absolute; margin: auto;
@@ -405,7 +404,44 @@ h1 {
     text-align: center;
     font-family: var(--TechFont);
     color: gray;
-    font-size: 2cap;
+    font-size: 3vw;
+}
+
+#ContentResource Input {
+    background-color: var(--Select);
+    outline: none; border: none;
+    position: absolute; margin: auto;
+    right: 4vw; top: 10vh;
+    width: 50vw;
+    color: white;
+    height: 1em;
+    padding: .5vh 0 .5vh 0;
+    text-align: center;
+    font-size: 2w;
+    border-radius: .5vw;
+}
+
+#ContentResource #WikiResults {
+    width: 80%; height: 30vh;
+    position: absolute; margin: auto;
+    top: -5vh; right: 0; bottom: 0; left: 15vw;
+    display: flex; flex-direction: column;
+}
+
+#ContentResource Span {
+    font-size: 5vw;
+    color: white;
+    font-family: var(--TechFont);
+    text-align: center;
+}
+
+#ContentResource a {
+    color: var(--Text);
+    width: 100%;
+    text-align: center;
+    font-size: 3vw;
+    margin-top: 2vh;
+    font-family: var(--MainFont);
 }
 
 #ContentAbout { 
@@ -533,22 +569,20 @@ h1 {
     color: #636363;
 }
 
-#ContentAnswer span {
-    outline: none;
+#ChoiceCont {
     border: outset 1vw #6e6e6e;
-    background-color: #636363;
-    width: 77vw;
-    height: 47vh;
-    position: absolute; margin: auto;
-    left: 0; right: 0; bottom: 0; top: 0;
-    color: #d6d6d6;
-    font-size: 2.5vw;
-    display: flex;
-    vertical-align: top;
-    text-align: left;
-    padding: 3vw;
-    text-shadow: .2vw .2vw black;
-} 
+    background-color: var(--Select);
+    margin-left: auto; margin-right: auto;
+    font-size: 5vw;
+    color: var(--Content);
+    padding: .5vh 1vw .5vw 1vw;
+    border-radius: 1vw;
+    font-family: var(--MainFont);
+    min-width: 60%;
+    padding: 2vh 2vw 2vh 2vw;
+}
+
+#ChoiceCont Span { margin-left: 2vw; }
 
 #GoBack,
 #Submit {

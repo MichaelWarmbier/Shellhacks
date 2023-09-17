@@ -57,16 +57,23 @@ async function loadQuestions() {
 }
 
 const filteredQuestions = async (selectedTopics, selectedDifficulties, searchParam) => {
+    console.log(`Topics:${selectedTopics} Diff:${selectedDifficulties} Param:${searchParam}`);
+
     let questions = await loadQuestions();
 
-    if (selectedTopics.length === 0 && selectedDifficulties.length === 0 && searchParam.length === 0) {
+    let noSelectedTopics = !selectedTopics || selectedTopics.length === 0;
+    let noSelectedDifficulties = !selectedDifficulties || selectedDifficulties.length === 0;
+    let noSearchParam = !searchParam || searchParam.length === 0;
+
+    if (noSelectedTopics && noSelectedDifficulties && noSearchParam) {
+        console.log("No filters");
         return questions;
     }
 
     try {
         let filtered = []
         
-        if (searchParam.length > 0) {
+        if (!noSearchParam) {
             const regex = new RegExp(`\\b\\w*${searchParam}\\w*\\b`, 'gi');
             const matchingWords = [];
 
@@ -79,29 +86,37 @@ const filteredQuestions = async (selectedTopics, selectedDifficulties, searchPar
                     }
                 }
             }
+
         } else {
             filtered = questions;
-        }
 
-        console.log("NO SEARCH PARAM");
-        if (selectedTopics.length === 0 && selectedDifficulties.length === 0) {
-            console.log("ONLY SEARCH PARAM:", filtered);
+            if (noSelectedTopics && noSelectedDifficulties) {
+                console.log("ONLY SEARCH PARAM:", filtered);
+                return filtered;
+            }
 
-            return filtered;
-        } else {
+
+            console.log("NO SEARCH PARAM");
+      
             let refilter = []
             if (selectedTopics.length > 0) console.log(`FILTERING ${selectedTopics}`);
             if (selectedDifficulties.length > 0) console.log(`${selectedDifficulties}`);
+    
+            console.log(filtered);
 
             for (question of filtered) {
-                if (selectedTopics.includes(question.topic) && selectedDifficulties.includes(question.difficulty)) {
+                if (selectedTopics.includes(question.topic) || selectedDifficulties.includes(question.difficulty)) {
                     refilter.push(question);
                 }
             }
-
+    
+            console.log(refilter);
             return refilter;
-        }        
-    } catch (error) {
+        }
+
+        return filtered;
+             
+    } catch (error) { 
         console.error('Error filtering questions:', error);
         throw error;
     }

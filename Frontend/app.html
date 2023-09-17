@@ -39,8 +39,10 @@
             </div>
             <div id="ContentAnswer" class="menu">
                 <h1>This is an example of a question?</h1>
--                <div id="GoBack" onclick="toggleContent(0)">☚</div>
-                <div id="Submit" onclick="">✓</div>
+                <div id="GoBack" onclick="toggleContent(0)">☚</div>
+                <div id="ChoiceCont">
+                </div>
+                <div id="Submit" onclick="submitAnswer()">✓</div>
             </div>
             <div id="ContentAbout" class="menu">
                 <div class="spotlight"></div>
@@ -85,6 +87,8 @@
                 <div id="Wikipedia" class="module">
                     <div class="module_icon"></div>
                     <h1>Wikipedia Article Finder</h1>
+                    <input type="text"></input>
+                    <div id="WikiResults"></div>
                 </div>
 
             </div>

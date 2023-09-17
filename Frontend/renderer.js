@@ -8,6 +8,9 @@ const DisplayData = {
     MenuIndex: 0,
     ActiveFilter: '',
     ActiveQuery: '',
+    ActiveQuestion: '',
+    PendingAnswer: null,
+    IDs: ['69'],
     Menus: [ContentProblems, ContentResource, ContentAbout, ContentAnswer, ContentLogin],
     UserData: null,
     Colors: [
@@ -58,8 +61,7 @@ const DisplayData = {
 /*//// Initialization Function ////*/
 
 window.onload = async () => {
-    login('','');
-    //await checkLogin();
+    if ((await window.user.LoadPreferences()).Prefs.LastLogged) login('','');
     if (!DisplayData.LoginSession) toggleContent(4);
     DisplayData.QuestionData = await window.questions.getQuestions();
     let data = DisplayData.QuestionData;
@@ -73,7 +75,7 @@ window.onload = async () => {
         let into = elem.topic;
         newDiv.onclick = function() { 
             updateFilter(into); 
-            renderTable();
+            //renderTable();
         }
         FilterContainer.appendChild(newDiv);
     }
@@ -122,7 +124,7 @@ function toggleDarkMode() {
 async function renderTable() {
     /* Filter Data */
     if (!DisplayData.ActiveFilter && !DisplayData.ActiveQuery) DisplayData.QuestionData = await window.questions.getQuestions();
-    else DisplayData.QuestionData = await window.questions.getFilter([], [], DisplayData.ActiveQuery);
+    else DisplayData.QuestionData = await window.questions.getFilter(DisplayData.ActiveFilter, [], DisplayData.ActiveQuery);
     let data = DisplayData.QuestionData;
 
     /* Generate Table */
@@ -148,8 +150,8 @@ async function renderTable() {
                     newData.innerHTML = `${elem.difficulty}&emsp;<span class="${elem.difficulty}_tag _${metronome} tag"><span>`;
                     break;
                 case 3: 
-                    newData.innerHTML = 'Incomplete';
-                    newData.classList.add('Incomplete_tag'); 
+                    newData.innerHTML = `${DisplayData.IDs.includes(parseInt(elem.ID)) ? 'Complete' : 'Incomplete'}`
+                    newData.classList.add(`${newData.innerHTML}_tag`); 
                     break;
             }
         }
@@ -171,20 +173,51 @@ function toggleContent(index) {
             DisplayData.Menus[i].style.pointerEvents = 'Auto';
         }
     }
+    renderTable();
+    refreshSiteVisuals();
 }
 
 function openQuestion(ID) {
-    console.log(ID);
+    DisplayData.PendingAnswer = -1;
+    DisplayData.ActiveQuestion = ID;
     toggleContent(3);
     for (elem of DisplayData.QuestionData)
         if (elem.ID == ID) {
             document.querySelectorAll('#ContentAnswer h1')[0].innerHTML = elem.title;
+            ChoiceCont.innerHTML = '';
+            let index = 0;
+            for (elem of elem.choices) {
+                ChoiceCont.innerHTML += `<input oninput="clearChoices(this)" type='radio' value="${index} name="${index}><span>${elem.text}</span><br>`
+                if (elem.is_correct) DisplayData.PendingAnswer = index;
+                index++;
+            }
             return;
         }
 }
 
+async function submitAnswer() {
+    const choices = document.querySelectorAll('#ContentAnswer Input');
+    for (let i = 0; i < choices.length; i++) 
+        if (choices[i].checked && i == DisplayData.PendingAnswer)
+            { 
+                warn("Correct! You did it!", 50, "green"); 
+                toggleContent(0); 
+                if (!DisplayData.IDs.includes(DisplayData.ActiveQuestion))
+                    DisplayData.IDs.push(DisplayData.ActiveQuestion);
+                renderTable();
+                await window.user.UpdateUser({username: 'Jason', solved: DisplayData.UserData.Solved, IDs: DisplayData.IDs, icon: null});
+                return;
+            }
+    warn("Incorrect Answer! Try Again", 50, );
+}
+
+function clearChoices(self) {
+    const choices = document.querySelectorAll('#ContentAnswer Input');
+    for (choice of choices) if (choice != self) choice.checked = false;
+}
+
 function updateFilter(name) { 
-    DisplayData.ActiveFilter = name; 
+    DisplayData.ActiveFilter = [name]; 
     renderTable();
 }
 
@@ -215,11 +248,42 @@ function toggleLogin(face) {
     }
 }
 
-function warn(msg) {
+function warn(msg, offset=0, clr_or='red') {
     Warn.innerHTML = msg;
     Warn.style.opacity = .4;
+    Warn.style.backgroundColor = clr_or;
+    Warn.style.transform = `translateY(${offset}vh)`;
     setTimeout(() => { Warn.style.opacity = 0; }, 3000);
 }
+
+async function getWikiLinks() {
+    const WikiSearch = document.querySelectorAll('#Wikipedia Input')[0];
+    results = await window.wiki.SearchWiki(WikiSearch.value, 6);
+    WikiResults.innerHTML = '';
+    const newName = document.createElement('span');
+    newName.innerHTML = 'Article Results:'
+    WikiResults.appendChild(newName);
+    for (result of results) {
+        const newAnchor = document.createElement('a');
+        WikiResults.appendChild(newAnchor);
+        newAnchor.href = result.URL;
+        newAnchor.target= '_blank';
+        newAnchor.innerHTML = result.name;
+    }
+}
+
+async function refreshSiteVisuals() {
+    let data = DisplayData.UserData;
+    const totalQuestions = (await window.questions.getQuestions()).length;
+    CompleteInfo.style.background = `linear-gradient(90deg, var(--BarGreen) ${Math.floor(data.Solved/totalQuestions) + .1}%, var(--BarRed) ${Math.floor(data.Solved/totalQuestions) + .1}%, var(--BarRed) 100%)`; 
+    CompleteInfo.innerHTML = `${data.Solved}/${totalQuestions}`;
+}
+
+/*//// Event Listeners ////*/
+
+document.querySelectorAll('#Wikipedia Input')[0].addEventListener('keydown', (e) => {
+    if (event.key === "Enter") getWikiLinks();
+});
 
 /*//// Server Methods ////*/
 
@@ -236,45 +300,20 @@ async function login() {
     let prefs = await window.user.LoadPreferences();
     if (prefs.Prefs.DarkMode) toggleDarkMode();
 
-    if (!prefs.Prefs.Session) {
-        let resp = await window.user.Login(User.value, Pass.value);
-        if (User.value == '' || Pass.value == '') { 
-            warn("Please enter a username and password");
-            return;
-        }
-        if (resp && resp !== "Invalid") {
-            DisplayData.LoginSession = resp;
-            toggleContent(0);
-        } else if (!resp) warn("Unable to fetch server data");
-        else warn("Incorrect login information. Please try again")
-        try {
-            data = await window.user.GetUser(User.value);
-            console.log("Current Session: " + await data.Session);
-        }
-        catch { warn("Unabble to connect to server"); return; }
-        await window.user.SavePreferences(`{"Prefs": {"DarkMode": ${prefs.DarkMode}, "Session": ${await data.Session}, "LastLogged": ${data.Username}}}`)
-    } else if (prefs.Prefs.LastLogged) {
-        try {
-            data = await window.user.GetUser(prefs.Prefs.LastLogged);
-            console.log("Current Session: " + await data.Session);
-        }
-        catch { warn("Could not verify user login"); return; }
-        if (data.Session === prefs.Prefs.Session) {
-            toggleContent(0);
-            return;
-        }
-    } else { return; }
+    let resp = await window.user.Login(User.value, Pass.value);
+    data = await window.user.GetUser(prefs.Prefs.LastLogged);
+    console.log("Current Session: " + await data.Session);
     
-    DisplayData.UserData = data;
-    const totalQuestions = (await window.questions.getQuestions()).length;
-    CompleteInfo.style.background = `linear-gradient(90deg, var(--BarGreen) ${Math.floor(data.Solved/totalQuestions) + .1}%, var(--BarRed) ${Math.floor(data.Solved/totalQuestions) + .1}%, var(--BarRed) 100%)`; 
-    CompleteInfo.innerHTML = `${data.Solved}/${totalQuestions}`;
+    DisplayData.UserData = await data;
+    DisplayData.IDs = await data.IDs;
+
+    toggleContent(0);
 } 
 
 async function register() {
-    user = UserTry.value;
-    pass1 = Pass1.value;
-    pass2 = Pass2.value;
+    let user = UserTry.value;
+    let pass1 = Pass1.value;
+    let pass2 = Pass2.value;
     if (pass1 != pass2) {
         warn("Both passwords must match");
         return;
@@ -283,4 +322,6 @@ async function register() {
         warn("Please enter a username and verify your password");
         return;
     }
+    window.user.SignUp({username: user, password: pass1});
+    toggleLogin(0);
 }

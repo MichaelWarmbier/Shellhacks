@@ -1,7 +1,10 @@
+const axios = require('axios');
 const { app, BrowserWindow } = require('electron');
 const path = require('node:path');
+const { LoadPreferences } = require('./user_logic');
 require('./logic');
-
+require('./user_logic');
+require('./wiki');
 const createWindow = () => {
     const window = new BrowserWindow({
         width: 1000,
