@@ -297,11 +297,12 @@ async function updateUserDetails(user) {
 async function login() { 
 
     let data = null;
+    let resp = null;
     let prefs = await window.user.LoadPreferences();
     if (prefs.Prefs.DarkMode) toggleDarkMode();
 
-    let resp = await window.user.Login(User.value, Pass.value);
-    data = await window.user.GetUser(prefs.Prefs.LastLogged);
+    resp = await window.user.Login(await User.value, await Pass.value);
+    data = await window.user.GetUser(User.value);
     console.log("Current Session: " + await data.Session);
     
     DisplayData.UserData = await data;

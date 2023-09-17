@@ -379,6 +379,7 @@ body {
     display: flex;
     align-items: center;
     position: relative;
+    overflow-y: hidden;
 }
 
 #ContentResource .module:hover {
@@ -429,7 +430,7 @@ body {
 }
 
 #ContentResource Span {
-    font-size: 5vw;
+    font-size: 3vw;
     color: white;
     font-family: var(--TechFont);
     text-align: center;
@@ -498,7 +499,6 @@ body {
 #ContentAbout .tools {
     font-size: 3vw;
     top: 14vh;
-    color: 
 }
 
 #ContentAbout .us-being-awesome {
@@ -727,10 +727,19 @@ body {
 
 @media (max-width: 1850px) {
 
+    /* Content */
+
+    #Login h1,
+    #Register h1 {
+        transform: translateX(.5vw);
+    }
+
     /* Information */
 
     #NightLight { right: -70vw;}
     #PageSelect { top: 73.5vh;}
+
+    #SubmitRegister { margin-bottom: 10vh; }
 
 }
 

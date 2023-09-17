@@ -59,6 +59,7 @@ async function getUser(user) {
         if (error.response) {
         console.error('Response Status:', error.response.status);
         console.error('Response Data:', error.response.data);
+        reject();
         }
     });
     });
@@ -109,7 +110,7 @@ async function login(user, pass) {
     axios.get(`https://server-06.kirbout.repl.co/login?username=${user}&password=${pass}`)
     .then(response => {
       if (response.status === 200) {
-        resolve(response.data);
+        resolve(response.data); return;
       } else {
         console.error('Unexpected status code:', response.status);
       }
