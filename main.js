@@ -4,12 +4,22 @@ require('./logic');
 
 const createWindow = () => {
     const window = new BrowserWindow({
-        width: 500,
-        height: 500,
+        width: 1000,
+        height: 1080,
+        minWidth: 500,
+        minHeight: 500,
+        autoHideMenuBar: true,
+        title: 'DeepDive - Powered By Electron and Node.js',
+        titleBarOverlay: {
+            color: 'red',
+            height: 30,
+            width: 100,
+            symbolColor: 'white'
+        },
         webPreferences: {
             preload: path.join(__dirname, '/preload.js'),
             nodeIntegration: true,
-            contextIsolation: true
+            contextIsolation: true,
         }
     })
 

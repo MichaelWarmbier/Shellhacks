@@ -29,16 +29,6 @@
     --LabelText: white;
 }
 
-/*
-
-    --TableBlack: #363636
-    --TableWhite: gray;
-
-    --TableBlack: #a1a1a1;
-    --TableWhite: gray;
-
-    */
-
 /*//// General ////*/
 
 body {
@@ -54,6 +44,25 @@ body {
     height: 100%;
 }
 
+#Warn {
+    height: 20vh; width: 40vw;
+    border-radius: 1vw;
+    background-color: red;
+    z-index: 500;
+    position: absolute; margin: auto;
+    top: 5vh; left: 0; right: 0;
+    color: white;
+    font-family: var(--TechFont);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4vw;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .4s;
+}
+
 /*//// Navigation ////*/
 
 #AppTitle {
@@ -65,7 +74,7 @@ body {
     align-items: center;
     justify-content: center;
     transform: translateX(1.5vw);
-    font-family: var(--MainFont);
+    font-family: var(--TechFont);
 }
 
 #Header {
@@ -74,6 +83,7 @@ body {
     height: 7vh;
     display: flex;
     transition: background-color .3s;
+    z-index: 200;
 } 
 
 #Nav {
@@ -134,6 +144,106 @@ body {
     top: 7.3vh;
 }
 
+#ContentLogin { 
+    opacity: 0;
+    background-color: var(--Content);
+    z-index: 200;
+    height: 100vh;
+    top: 0;
+}
+
+#Login,
+#Register {
+    position: absolute; margin: auto;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--Select);
+    width: 50vw; height: 55vh;
+    padding-top: 5vh;
+    border-radius: 3vw;
+    text-align: center;
+    overflow: hidden;
+    transition: transform .7s;
+    transition-timing-function: linear;
+} #Register { transform: rotateY(180deg); z-index: -1; }
+
+#Login h1,
+#Register h1 {
+    width: 100; height: 1em;
+    color: white;
+    font-family: var(--MainFont);
+    font-size: 6vw;
+    transform: translateX(3.7vw);
+    text-shadow: .2vw .2vw .5vw black;
+}
+
+#Login p,
+#Register p {
+    color: var(--Text);
+    font-family: var(--TechFont);
+    font-size: 3vw;
+    font-weight: bold;
+    text-shadow: .2vw .2vw .3vw black;
+}
+
+#Login Input,
+#Register Input {
+    border-radius: .5vw;
+    background-color: var(--TableBlack);
+    color: white; outline: none;
+    height: 1em;
+    text-align: center;
+    padding: .5vh 0 .5vh 0;
+    font-size: 2vw;
+    font-family: var(--MainFont);
+}
+
+#ToRegister,
+#ToLogin {
+    position: absolute; margin: auto;
+    right: 0; bottom: 0;
+    width: 15vw; height: 5vw;
+    border-top-left-radius: 1vw;
+    color: #b3b3b3;
+    font-family: var(--MainFont);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: var(--MainFont);
+    text-shadow: .1vw .1vw .2vw black;
+    background-color: var(--TableBlack);
+    font-size: 2.5vw;
+    font-weight: bold;
+}
+
+#ToRegister:hover,
+#ToLogin:hover { color: white; }
+
+#SubmitRegister,
+#SubmitLogin {
+    padding: 1vh 3vw 1vh 3vw;
+    color: #b3b3b3;
+    font-size: 2.5vw;
+    font-weight: bold;
+    font-family: var(--MainFont);
+    text-shadow: .1vw .1vw .2vw black;
+    background-color: var(--TableBlack);
+    width: 5vw; height: 1em;
+    border-radius: 1vw;
+    margin-top: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#SubmitRegister:hover,
+#SubmitLogin:hover { color: white; }
+
+
 #FilterContainer {
     width: max-content;
     height: 3vh;
@@ -145,18 +255,17 @@ body {
     width: max-content;
     height: .8em;
     border-radius: 3vw;
-    background-color: black;
+    background-color: gray;
     color: white;
     font-family: var(--TechFont);
     font-size: 2.5vw;
     padding: 1.5vh 1.5vw 1.9vh 1.5vw;
     margin-left: 2vw;
-    opacity: .4;
     cursor: pointer;
     float: left;
 } 
 
-#FilterContainer .filter_option:hover { opacity: 1; }
+#FilterContainer .filter_option:hover { background-color: black; }
 
 #ProblemList {
     width: 100%;
@@ -184,6 +293,17 @@ body {
     margin-left: auto; margin-right: auto;
 }
 
+#SearchProblems input {
+    width: 80%;
+    height: 105%;
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 2vh;
+    color: white;
+    margin-left: 1vw;
+}
+
 #ProblemList Table {
     width: 100%;
     height: max-content;
@@ -205,6 +325,16 @@ body {
     color: inherit;
     font-family: var(--MainFont);
     text-align: center;
+    font-size: 1.7vw;
+    text-shadow: .1vw .1vw .2vw black;
+}
+
+.question {
+    cursor: pointer;
+} .question:hover {
+    color: white;
+    font-weight: bold;
+    transition: font-weight .3s, color .3s;
 }
 
 #PageSelect { 
@@ -229,6 +359,53 @@ body {
 
 #PageSelect .page:nth-child(1) {
     transform: scale(1.5);
+}
+
+#ContentResource { 
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#ContentResource .module {
+    height: 70vh;
+    width: 80vw;
+    border-radius: 2vh;
+    background-color: var(--Other);
+    box-shadow: .4vw .4vw 2cqi gray;
+    transition: box-shadow .5s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#ContentResource .module:hover {
+    box-shadow: .4vw .4vw 4vw gray;
+}
+
+#ContentResource .module_icon {
+    height: 20vw;
+    width: 20vw;
+    border-radius: 1vw;
+    position: absolute; margin: auto;
+    top: 4vw; left: 4vw;
+    background: url('./Assets/Wiki.png');
+    background-size: cover;
+}
+
+h1 {
+    display: block;
+    width: max-width; height: 1em;
+    position: absolute; margin: auto;
+    top: 3vh; right: 4vw;
+    width: 50vw;
+    text-align: center;
+    font-family: var(--TechFont);
+    color: gray;
+    font-size: 2cap;
 }
 
 #ContentAbout { 
@@ -329,8 +506,12 @@ body {
 
 .us-being-awesome div:nth-child(1) { background: url('./Assets/Michael.png'); }
 .us-being-awesome div:nth-child(3) { background: url('./Assets/Alex.png'); }
+.us-being-awesome div:nth-child(5) { background: url('./Assets/John.png'); }
+.us-being-awesome div:nth-child(8) { background: url('./Assets/Alm.png'); }
+
 
 .spotlight {
+    pointer-events: none;
     position: absolute; margin: auto;
     left: 0; right: 0; bottom: 0; top: 0;
     width: 80vw; height: 80vw;
@@ -340,6 +521,59 @@ body {
     z-index: 0; opacity: .3;
     background-image: none !important;
 }
+
+#ContentAnswer {
+    opacity: 0;
+}
+
+#ContentAnswer h1 {
+    width: 100%;
+    text-align: center;
+    font-family: var(--TechFont);
+    color: #636363;
+}
+
+#ContentAnswer span {
+    outline: none;
+    border: outset 1vw #6e6e6e;
+    background-color: #636363;
+    width: 77vw;
+    height: 47vh;
+    position: absolute; margin: auto;
+    left: 0; right: 0; bottom: 0; top: 0;
+    color: #d6d6d6;
+    font-size: 2.5vw;
+    display: flex;
+    vertical-align: top;
+    text-align: left;
+    padding: 3vw;
+    text-shadow: .2vw .2vw black;
+} 
+
+#GoBack,
+#Submit {
+    height: 10vh;
+    width: 10vw;
+    position: absolute; margin: auto;
+    background-color: #636363;
+    border-radius: 0 2vw 2vw 0;
+    box-shadow: .2vw .2vw black;
+    color: #c4bbbb;
+    font-size: 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 2.5vw;
+    transition: .3s color;
+    cursor: pointer;
+    text-shadow: .2vw .2vw black;
+} 
+
+#GoBack { left: 0; bottom: 3vh; border-radius: 0 2vw 2vw 0; }
+#Submit { right: 0; bottom: 3vh; border-radius: 2vw 0 0 2vw; }
+
+#GoBack:hover,
+#Submit:hover { color: white; }
 
 /*//// Information ////*/
 
@@ -381,9 +615,8 @@ body {
     background-color: var(--BarRed);
     border: solid .3vh var(--Outline);
     border-radius: 3vh;
-    position: fixed; 
     position: absolute; margin: auto;
-    bottom: 0; top: 0; right: -80vw; left: 0;
+    bottom: 0; top: 0; left: 15vw;
     cursor: pointer;
     overflow: hidden;
     padding: 0 .5vw 0 .5vw;
@@ -485,15 +718,119 @@ body {
     #ProblemFilterCont { margin-left: 1vw; }
     #PageSelect .page { height: 1vw; width: 1vw;}
 
+    #Login h1,
+    #Register h1 {
+        font-size: 3vw;
+        transform: translate(3.7vw, -2vh);
+    }
+    
+    #Login p,
+    #Register p {
+        font-size: 3vw;
+        margin-top: 0;
+    }
+    
+    #Login Input,
+    #Register Input {
+        font-size: 2vw;
+        margin-top: -5vh;
+    }
+    
+    #ToRegister,
+    #ToLogin {
+        right: 0; bottom: 0;
+        font-size: 2.5vw;
+    }
+
+    #SubmitRegister,
+    #SubmitLogin {
+        font-size: 2.5vw;
+        margin-top: 3vh;
+    }
+    
+    #ContentAbout p {
+        display: block; 
+        margin: auto; position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        font-family: var(--MainFont);
+        width: max-content;
+        height: max-content;
+    }
+    
+    #ContentAbout h1 {
+        display: block; 
+        margin: auto; position: absolute;
+        top: -75vw; left: 0; right: 0; bottom: 0;
+        font-family: var(--MainFont);
+        font-size: 4vw;
+        color: #636363;
+        width: max-content;
+        height: max-content;
+        text-shadow: .3vw .3vw .4vw black;
+    }
+
+    #ContentAbout #ShellhacksLogo {
+        transform: translateY(20vh);
+        position: absolute; margin: auto;
+        top: -20vh; right: 0; bottom: 0; left: 0;
+        background: url('./Assets/shellhackslogo.gif');
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 50vw;
+        width: 50vh;
+    }
+
+    #ContentAbout .spotlight {
+        height: 60vw;
+        width: 60vw;
+    }
+    
+    #ContentAbout .year {
+        top: -50vw; left: 42vw; 
+        font-size: 3vw;
+        transform: translate(-8vw, 18vh)
+    }
+    
+    #ContentAbout .desc {
+        font-size: 1.5vw;
+        width: 90%;
+        transform: translateY(-4vw);
+    }
+    
+    #ContentAbout .tools {
+        font-size: 2vw;
+        transform: translateY(-5vw);
+    }
+    
+    #ContentAbout .us-being-awesome {
+        width: 45vw; 
+        height: 16vw;
+        transform: translateY(-3vh);
+    }
+
+    #ContentAbout .us { 
+        background-position-y: 2px;
+    }
+    
+    #ContentAbout .us-being-awesome .us {
+        height: 10vw;
+        width: 10vw;
+        box-shadow: inset 2vw 2vw 3vw .5vw var(--Content), inset -2vw -2vw 3vw .5vw  var(--Content)
+    }
+    
+    #ContentAbout .us-being-awesome .role {
+        font-size: 1.5vw;
+        width: 10vw;
+    }
+    
+
     /* Information */
+
+    #NightLight { right: -75vw; }
 
     .info_bar { font-size: 1vw !important; }
     .mask { font-size: 1.3vw !important; }
 }
-
-/*//// keyFrames ////*/
-
-@keyframes {}
 
 /*//// Text Highlight Tags ////*/
 
@@ -511,6 +848,11 @@ body {
 
 .Complete_tag { 
     color: #0e4508 !important;
+    font-weight: bold;
+}
+
+.Incomplete_tag { 
+    color: #a1100b !important;
     font-weight: bold;
 }
 

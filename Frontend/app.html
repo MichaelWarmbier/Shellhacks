@@ -7,15 +7,41 @@
         <!-- App Content -->
         <div id="App">
             <div id="Header">
-                <span id="AppTitle">App</span>
+                <span id="AppTitle">Deep<span style="font-size: 3vw; color: gray;">Dive</span></span>
                 <div id="Nav">
                     <div id="BrowserWin" class="tab" onclick="toggleContent(0)">Problem Collection</div>
-                    <div id="InfoWin" class="tab" onclick="toggleContent(1)">Relevant Resources</div>
+                    <div id="InfoWin" class="tab" onclick="toggleContent(1)">Resouce Tool</div>
                     <div id="AboutWin" class="tab" onclick="toggleContent(2)">About App</div>
                     <div id="SelectUnderline"></div>
                 </div>
             </div>
-            <div id="ContentAnswer" class="menu"></div>
+            <div id="ContentLogin" class="menu">
+                <div id="Login">
+                    <h1>Login</h1>
+                    <p>Username:</p>
+                    <input id="User">
+                    <p>Password:</p>
+                    <input id="Pass" type="password">
+                    <div id="SubmitLogin" onclick="login()"">Login</div>
+                    <div id="ToRegister" onclick="toggleLogin(1)">Register ></div>
+                </div>
+                <div id="Register">
+                    <h1>Register</h1>
+                    <div id="ToLogin" onclick="toggleLogin(0)">Login ></div>
+                    <p>Desired Username:</p>
+                    <input id="UserTry">
+                    <p>Password:</p>
+                    <input id="Pass1" type="password">
+                    <p>Re-enter Password:</p>
+                    <input id="Pass2" type="password">
+                    <div id="SubmitRegister" onclick="register()">Submit</div>
+                </div>
+            </div>
+            <div id="ContentAnswer" class="menu">
+                <h1>This is an example of a question?</h1>
+-                <div id="GoBack" onclick="toggleContent(0)">☚</div>
+                <div id="Submit" onclick="">✓</div>
+            </div>
             <div id="ContentAbout" class="menu">
                 <div class="spotlight"></div>
                 <h1>This project was developed for</h1>
@@ -56,6 +82,10 @@
                 </div>
             </div>
             <div id="ContentResource" class="menu">
+                <div id="Wikipedia" class="module">
+                    <div class="module_icon"></div>
+                    <h1>Wikipedia Article Finder</h1>
+                </div>
 
             </div>
             <div id="ContentProblems" class="menu">
@@ -66,7 +96,7 @@
                 <!-- Problem display -->
                 <div id="ProblemList">
                     <div id="ProblemFilterCont">
-                        <div id="SearchProblems">&emsp;🔍</div>
+                        <div id="SearchProblems">&emsp;🔍<input oninput="updateSearch()"></input></div>
                     </div>
                     <table>
                         <tr>
@@ -84,9 +114,6 @@
                     <span class="icon">✅</span>
                     <div id="CompleteInfo" class="info_bar">3/10</div>
                     <span class="mask">Completed</span>
-                    <span class="icon">📅</span>
-                    <div id="GoalInfo" class="info_bar">3/10</div>
-                    <span class="mask">Today's Goal</span>
                 </div>
                 <div id="ExtraInfoTrigger"></div>
                 <div id="ExtraInfo"></div>
@@ -94,10 +121,9 @@
                 <div id="NightLight" onclick="toggleDarkMode()">
                     <div id="CelestialBody"><div></div></div>
                 </div>
-                <div id="AccIcon"></div>
             </div>
-            <div id="AccMenu"></div>
         </div>
+        <div id="Warn"></div>
         <!-- Attached Scripts -->
         <script src="renderer.js"></script>
     </body>

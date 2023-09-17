@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs')
 
 const siteData = {
     topicFilter: [],
@@ -9,16 +9,6 @@ const siteData = {
 const QuestionType = {
     MultipleChoice: 0,
     OpenEnded: 1
-}
-
-const question = {
-    title: '',
-    summary: '',
-    keywords: '',
-    topic: '',
-    difficulty: '',
-    type: QuestionType.MultipleChoice,
-    answer: 0
 }
 
 const assignTopicFilter = (filter) => {
@@ -66,33 +56,63 @@ async function loadQuestions() {
     });
 }
 
-const filteredQuestions = async (selectedTopics, selectedDifficulties) => {
+const filteredQuestions = async (selectedTopics, selectedDifficulties, searchParam) => {
     let questions = await loadQuestions();
 
-    try {
-        const filteredQuestions = questions.filter((question) => {
-            return (
-                selectedTopics.includes(question.topic) &&
-                selectedDifficulties.includes(question.difficulty)
-            );
-        });
+    if (selectedTopics.length === 0 && selectedDifficulties.length === 0 && searchParam.length === 0) {
+        return questions;
+    }
 
-        return filteredQuestions;
+    try {
+        let filtered = []
+        
+        if (searchParam.length > 0) {
+            const regex = new RegExp(`\\b\\w*${searchParam}\\w*\\b`, 'gi');
+            const matchingWords = [];
+
+            for (question of questions) {
+                for(const keyword of question.keywords)
+                {
+                    const words = keyword.match(regex);
+                    if (words) {
+                      filtered.push(question);
+                    }
+                }
+            }
+        } else {
+            filtered = questions;
+        }
+
+        console.log("NO SEARCH PARAM");
+        if (selectedTopics.length === 0 && selectedDifficulties.length === 0) {
+            console.log("ONLY SEARCH PARAM:", filtered);
+
+            return filtered;
+        } else {
+            let refilter = []
+            if (selectedTopics.length > 0) console.log(`FILTERING ${selectedTopics}`);
+            if (selectedDifficulties.length > 0) console.log(`${selectedDifficulties}`);
+
+            for (question of filtered) {
+                if (selectedTopics.includes(question.topic) && selectedDifficulties.includes(question.difficulty)) {
+                    refilter.push(question);
+                }
+            }
+
+            return refilter;
+        }        
     } catch (error) {
         console.error('Error filtering questions:', error);
         throw error;
     }
 }
 
-const selectedTopics = ['Math'];
-const selectedD = ['Easy'];
-
 module.exports = {
     getQuestions: async () => {
         return await loadQuestions();
     },
 
-    getFilter: async (selectedTopics, selectedDifficulties) => {
-        return await filteredQuestions(selectedTopics, selectedDifficulties);
+    getFilter: async (selectedTopics, selectedDifficulties, searchParam) => {
+        return await filteredQuestions(selectedTopics, selectedDifficulties,searchParam);
     }
 }
